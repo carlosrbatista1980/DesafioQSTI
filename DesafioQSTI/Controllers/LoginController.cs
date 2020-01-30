@@ -97,7 +97,7 @@ namespace DesafioQSTI.Controllers
                     SecurityStamp = GetHashCode().ToString(),
                 };
                 
-                //var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, true, false);
+                //var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswxvcvxcvxcvxcvxcordHash, true, false);
 
                 var userExists = new LoginService().SignInService(loginViewModel);
                 if (userExists)
