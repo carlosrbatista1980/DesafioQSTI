@@ -8,7 +8,7 @@ namespace DesafioQSTI.Data.Repository
     public class ExecucaoServico
     {
         public int Id { get; set; }
-        public DateTime DataHora { get; set; }
+        public DateTime? DataHora { get; set; }
         public ServicoCliente ServicoCliente { get; set; }
     }
 }

@@ -38,7 +38,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h3 class="thin text-center">Register a new account</h3>
-                        <p class="text-center text-muted">If you already has an account just click, <a asp-controller="Login" asp-action="Login"><span class="badge badge-info">Login</span></a> to proceed.</p>
+                        <p class="text-center text-muted">If you already has an account just click, <a asp-controller="Authentication" asp-action="Login"><span class="badge badge-info">Login</span></a> to proceed.</p>
                         <hr>
 
                         <form asp-action="CreateAccount" asp-controller="Authentication" name="form1" id="form1">
@@ -59,7 +59,6 @@
 
                             <div class="row">
                                 <div class="col-lg-4 text-right">
-                                    <!--<button class="btn btn-action" type="submit" onclick="Validate()">Register</button>-->
                                     <button class="btn btn-action" type="submit">Register</button>
                                 </div>
                             </div>

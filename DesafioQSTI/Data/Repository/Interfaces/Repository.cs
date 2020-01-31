@@ -24,17 +24,7 @@ namespace DesafioQSTI.Data.Repositories.Interfaces
             dbSet = context.Set<TEntity>();
             db = context;
         }
-
-        //IQueryable<TEntity> Select2(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-        //    List<Expression<Func<TEntity, object>>> includes = null,
-        //    int? page = null,
-        //    int? pageSize = null);
-
-        //IQueryable<TEntity> Select();
-        /// <summary>
-        /// Gets all records from a entity
-        /// </summary> 
-        /// <returns>IQuerable</returns>
+        
         public IQueryable<TEntity> GetAll()
         {
             return dbSet.AsQueryable();

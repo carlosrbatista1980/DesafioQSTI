@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using DesafioQSTI.Models;
 
 namespace DesafioQSTI.Data
 {
@@ -33,6 +34,11 @@ namespace DesafioQSTI.Data
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Cliente>().Property(f => f.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Servico>().Property(f => f.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<ServicoCliente>().Property(f => f.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<ExecucaoServico>().Property(f => f.Id).ValueGeneratedOnAdd();
+
             modelBuilder.Entity<IdentityRole>().HasData(new {Id = "1", Name = "admin", NormalizedName = "ADMIN"});
             modelBuilder.Entity<IdentityUser>().HasData(new
             {
@@ -51,5 +57,7 @@ namespace DesafioQSTI.Data
 
             base.OnConfiguring(optionsBuilder);
         }
+
+        public DbSet<DesafioQSTI.Models.ClienteViewModel> ClienteViewModel { get; set; }
     }
 }

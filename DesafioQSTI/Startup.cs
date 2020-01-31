@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DesafioQSTI
@@ -76,7 +77,7 @@ namespace DesafioQSTI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SigningKey"])),
                 };
             });
-            
+
             
             
             services.AddScoped<Seed>();
@@ -92,6 +93,15 @@ namespace DesafioQSTI
 
             services.AddMvc();
 
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(opt =>
+            {
+                opt.Cookie.Name = "Cliente.Session";
+                opt.IdleTimeout = TimeSpan.FromMinutes(10);
+                opt.Cookie.IsEssential = true;
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +118,8 @@ namespace DesafioQSTI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -117,12 +129,12 @@ namespace DesafioQSTI
             //{
             //    route.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); 
             //});
-
+            
             app.UseMvc(route =>
             {
                 route.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Authentication}/{action=Index}/{id?}");
             });
         }
     }

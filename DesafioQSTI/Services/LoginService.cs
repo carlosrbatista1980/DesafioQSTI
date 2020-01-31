@@ -48,7 +48,7 @@ namespace DesafioQSTI.Services
         {
         }
 
-        public bool SignInService(LoginViewModel obj)
+        public bool SignInService()
         {
             //SecretMD5Key must be b49d6c03fe471ee720b5a4d56c5a9bf2
             //SecretKey = 2011 and password = 123
@@ -68,7 +68,7 @@ namespace DesafioQSTI.Services
             return false;
         }
 
-        public object SignUpService(LoginViewModel obj)
+        public object SignUpService()
         {
             
 
@@ -112,11 +112,10 @@ namespace DesafioQSTI.Services
             if (!string.IsNullOrEmpty(accountExist.email))
                 obj._EventMesssage += " Email already exists!";
             */
-            return obj;
+            var t = new SerializableAttribute();
+            return t;
         }
-
-
-        //todo: Compare password hash
+        
         public string GetPasswordMD5Hash(string password, string secretKey)
         {
             var bytes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey + password));

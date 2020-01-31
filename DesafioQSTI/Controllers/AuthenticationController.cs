@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using DesafioQSTI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using JwtConstants = Microsoft.IdentityModel.JsonWebTokens.JwtConstants;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace DesafioQSTI.Controllers
@@ -18,16 +22,24 @@ namespace DesafioQSTI.Controllers
     {
         private UserManager<IdentityUser> _userManager;
         private IConfiguration _configuration;
+        private SignInManager<IdentityUser> _signInManager;
 
-        public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration configuration, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _signInManager = signInManager;
+
         }
 
-        public IActionResult Index()
+        public IActionResult Index(ClienteViewModel clienteViewModel)
         {
-            return View();
+            if (clienteViewModel.Nome != null)
+            {
+                HttpContext.Session.SetString("name", clienteViewModel.Nome);
+            }
+
+            return View(clienteViewModel);
         }
 
         public IActionResult Register()
@@ -51,7 +63,7 @@ namespace DesafioQSTI.Controllers
             }
 
             //return Ok(new {Username = user.UserName});
-            return View("Index", clienteViewModel);
+            return View("Register", clienteViewModel);
         }
 
         public async Task<IActionResult> Login(ClienteViewModel clienteViewModel)
@@ -69,15 +81,27 @@ namespace DesafioQSTI.Controllers
                     expires: DateTime.UtcNow.AddMinutes(expiration),
                     signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );
+                
+                clienteViewModel.IsAuthenticated = true;
 
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo,
-                });
+                HttpContext.Session.SetString("Username", clienteViewModel.Nome);
+                HttpContext.Session.SetString("UserId", user.Id);
+
+                var result = _signInManager.SignInAsync(user, true);
+                
+
+                return RedirectToAction("Index", "Servico");
+                
             }
 
             return Unauthorized();
+        }
+
+        public async Task<IActionResult> LogOut(ClienteViewModel clienteViewModel)
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index");
         }
     }
 }
