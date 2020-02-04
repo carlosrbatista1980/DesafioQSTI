@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DesafioQSTI.Data;
 using DesafioQSTI.Data.Seed;
+using DesafioQSTI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,8 +79,8 @@ namespace DesafioQSTI
                 };
             });
 
-            
-            
+
+            services.AddScoped<ServicoCliente>();
             services.AddScoped<Seed>();
 
             // --- <Registration Services>

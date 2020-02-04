@@ -1,4 +1,4 @@
-﻿@model DesafioQSTI.Data.Repository.Cliente
+﻿@model DesafioQSTI.Data.Repository.ServicoCliente
 
 @{
     ViewData["Title"] = "Details";
@@ -7,16 +7,15 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Cliente</h4>
+    <h4>ServicoCliente</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
+            @Html.DisplayNameFor(model => model.Versao)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
+            @Html.DisplayFor(model => model.Versao)
         </dd>
-        
     </dl>
 </div>
 <div>

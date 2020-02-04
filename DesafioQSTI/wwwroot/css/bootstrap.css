@@ -930,6 +930,7 @@ pre code {
     position: relative;
     min-height: 1px;
     padding-left: 15px;
+    margin-top: 30px;
     padding-right: 15px
 }
 
@@ -1673,7 +1674,8 @@ th {
 
 .table {
     width: 100%;
-    margin-bottom: 20px
+    margin-bottom: 20px;
+    margin-top: 30px;
 }
 
 .table>thead>tr>th,

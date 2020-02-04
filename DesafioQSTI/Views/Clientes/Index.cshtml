@@ -1,75 +1,37 @@
-﻿@model IEnumerable<DesafioQSTI.Data.Repository.ExecucaoServico>
+﻿@model IEnumerable<DesafioQSTI.Data.Repository.Cliente>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Clientes Cadastrados";
 }
 
-<h1>Index</h1>
-
-
-<table class="table table-bordered">
+<br/>
+<h1>@ViewData["Title"]</h1>
+<br/>
+<table class="table">
     <thead>
     <tr>
-        <!--Serviço | Nome do Cliente | DataHora da Execução | Versão-->
-        <th scope="col">Serviço</th>
-        <th scope="col">Nome do Cliente</th>
-        <th scope="col">Datahora da Excução</th>
-        <th scope="col">Versão do Software</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        
+        <th></th>
     </tr>
     </thead>
     <tbody>
-
-    @foreach (var item in Model)
-    {
+    @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ServicoCliente.Servico.Nome)
+                @Html.DisplayFor(modelItem => item.Nome)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.ServicoCliente.Cliente.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataHora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServicoCliente.Versao)
-            </td>
-            <td>
-                <!--action buttons-->
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
     }
-
-    @*
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Servicos.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataHora)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Versao)
-                </td>
-                <td>
-                    <!--action buttons-->
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-        *@
-
     </tbody>
 </table>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
-

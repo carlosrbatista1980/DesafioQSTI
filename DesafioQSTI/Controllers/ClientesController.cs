@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DesafioQSTI.Data;
 using DesafioQSTI.Data.Repository;
-using DesafioQSTI.Models;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DesafioQSTI.Controllers
 {
@@ -23,17 +20,9 @@ namespace DesafioQSTI.Controllers
         }
 
         // GET: Clientes
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //< !--Serviço | Nome do Cliente | DataHora da Execução | Versão-- >
-
-            var serviceList = _context.ExecucaoServico
-                    .Include(sc => sc.ServicoCliente)
-                        .ThenInclude(c => c.Cliente)
-                    .Include(scc => scc.ServicoCliente)
-                        .ThenInclude(s => s.Servico);
-
-            return View(serviceList);
+            return View(await _context.Cliente.ToListAsync());
         }
 
         // GET: Clientes/Details/5
@@ -59,11 +48,15 @@ namespace DesafioQSTI.Controllers
         {
             return View();
         }
-        
+
+        // POST: Clientes/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Senha")] Cliente cliente)
         {
+
             if (cliente.Id == 0)
             {
                 cliente.Id = _context.Cliente.Max(x => x.Id) + 1;
@@ -85,20 +78,18 @@ namespace DesafioQSTI.Controllers
             {
                 return NotFound();
             }
-            
-            var cliente = await _context.ExecucaoServico
-                    .Include(sc => sc.ServicoCliente)
-                        .ThenInclude(c => c.Cliente)
-                    .Include(scc => scc.ServicoCliente)
-                        .ThenInclude(s => s.Servico).FirstOrDefaultAsync(x => x.Id == id);
 
+            var cliente = await _context.Cliente.FindAsync(id);
             if (cliente == null)
             {
                 return NotFound();
             }
             return View(cliente);
         }
-        
+
+        // POST: Clientes/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Senha")] Cliente cliente)

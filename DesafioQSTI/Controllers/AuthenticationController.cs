@@ -59,11 +59,12 @@ namespace DesafioQSTI.Controllers
             var result = await _userManager.CreateAsync(user, clienteViewModel.Senha);
             if (result.Succeeded)
             {
+                ViewData["Success"] = "Seja bem vindo, " + clienteViewModel.Nome;
                 await _userManager.AddToRolesAsync(user, new[] {"admin"} );
             }
 
             //return Ok(new {Username = user.UserName});
-            return View("Register", clienteViewModel);
+            return View("Index", clienteViewModel);
         }
 
         public async Task<IActionResult> Login(ClienteViewModel clienteViewModel)
@@ -88,13 +89,15 @@ namespace DesafioQSTI.Controllers
                 HttpContext.Session.SetString("UserId", user.Id);
 
                 var result = _signInManager.SignInAsync(user, true);
-                
 
+                ViewData["Success"] = "Seja bem vindo, " + clienteViewModel.Nome;
                 return RedirectToAction("Index", "Servico");
                 
             }
 
-            return Unauthorized();
+            ViewData["Error"] = "Usuário não cadastrado ou senha errada!";
+
+            return View("Index");
         }
 
         public async Task<IActionResult> LogOut(ClienteViewModel clienteViewModel)
